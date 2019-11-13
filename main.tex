@@ -1,0 +1,270 @@
+\def\paperversiondraft{draft}
+\def\paperversionblind{blind}
+
+\ifx\paperversion\paperversionblind
+\else
+  \def\paperversion{blind}
+\fi
+
+% !TEX TS-program = pdflatex
+% !TEX encoding = UTF-8 Unicode
+
+% This is a simple template for a LaTeX document using the "article" class.
+% See "book", "report", "letter" for other types of document.
+
+\documentclass[11pt]{article} % use larger type; default would be 10pt
+
+\usepackage{xargs}
+\usepackage{todonotes}
+\usepackage{xparse}
+\usepackage{xifthen, xstring}
+\usepackage{ulem}
+\usepackage{xspace}
+\makeatletter
+\font\uwavefont=lasyb10 scaled 652
+
+\newcommand\colorwave[1][blue]{\bgroup\markoverwith{\lower3\p@\hbox{\uwavefont\textcolor{#1}{\char58}}}\ULon}
+% \makeatother
+
+% \ifx\paperversion\paperversiondraft
+% \newcommand\createtodoauthor[2]{%
+% \def\tmpdefault{emptystring}
+% \expandafter\newcommand\csname #1\endcsname[2][\tmpdefault]{\def\tmp{##1}\ifthenelse{\equal{\tmp}{\tmpdefault}}
+%    {\todo[linecolor=#2!20,backgroundcolor=#2!25,bordercolor=#2,size=\tiny]{\textbf{#1:} ##2}}
+%    {\ifthenelse{\equal{##2}{}}{\colorwave[#2]{##1}\xspace}{\todo[linecolor=#2!10,backgroundcolor=#2!25,bordercolor=#2]{\tiny \textbf{#1:} ##2}\colorwave[#2]{##1}}}}}
+% \else
+% \newcommand\createtodoauthor[2]{%
+% \expandafter\newcommand\csname #1\endcsname[2][\@nil]{}}
+% \fi
+
+
+% \createtodoauthor{chris}{red}
+% \createtodoauthor{tobias}{blue}
+% \createtodoauthor{authorThree}{green}
+% \createtodoauthor{authorFour}{orange}
+% \createtodoauthor{authorFive}{purple}
+
+
+%%% Examples of Article customizations
+% These packages are optional, depending whether you want the features they provide.
+% See the LaTeX Companion or other references for full information.
+
+%%% PAGE DIMENSIONS
+\usepackage{geometry} % to change the page dimensions
+\geometry{a4paper} % or letterpaper (US) or a5paper or....
+\geometry{margin=1in} % for example, change the margins to 2 inches all round
+% \geometry{landscape} % set up the page for landscape
+%   read geometry.pdf for detailed page layout information
+
+\usepackage{graphicx} % support the \includegraphics command and options
+
+% \usepackage[parfill]{parskip} % Activate to begin paragraphs with an empty line rather than an indent
+
+% Broaden margins to make room for todo notes
+\ifx\paperversion\paperversiondraft
+  \paperwidth=\dimexpr \paperwidth + 6cm\relax
+  \oddsidemargin=\dimexpr\oddsidemargin + 3cm\relax
+  \evensidemargin=\dimexpr\evensidemargin + 3cm\relax
+  \marginparwidth=\dimexpr \marginparwidth + 3cm\relax
+  \setlength{\marginparwidth}{4cm}
+\fi
+
+\usepackage[utf8x]{inputenc}
+\usepackage{amssymb}
+
+\usepackage{color}
+\definecolor{keywordcolor}{rgb}{0.7, 0.1, 0.1}   % red
+\definecolor{commentcolor}{rgb}{0.4, 0.4, 0.4}   % grey
+\definecolor{symbolcolor}{rgb}{0.0, 0.1, 0.6}    % blue
+\definecolor{sortcolor}{rgb}{0.1, 0.5, 0.1}      % green
+
+\usepackage{listings}
+
+
+%%% PACKAGES
+\usepackage{inputenc}
+\usepackage{booktabs} % for much better looking tables
+\usepackage{array} % for better arrays (eg matrices) in maths
+\usepackage{paralist} % very flexible & customisable lists (eg. enumerate/itemize, etc.)
+\usepackage{verbatim} % adds environment for commenting out blocks of text & for better verbatim
+\usepackage{subfig} % make it possible to include more than one captioned figure/table in a single float
+
+\usepackage{textcomp}
+
+
+% These packages are all incorporated in the memoir class to one degree or another...
+
+%%% HEADERS & FOOTERS
+\usepackage{fancyhdr} % This should be set AFTER setting up the page geometry
+\pagestyle{fancy} % options: empty , plain , fancy
+\renewcommand{\headrulewidth}{0pt} % customise the layout...
+\lhead{}\chead{}\rhead{}
+\lfoot{}\cfoot{\thepage}\rfoot{}
+
+%%% SECTION TITLE APPEARANCE
+\usepackage{sectsty}
+\allsectionsfont{\sffamily\mdseries\upshape} % (See the fntguide.pdf for font help)
+% (This matches ConTeXt defaults)
+
+%%% ToC (table of contents) APPEARANCE
+\usepackage[nottoc,notlof,notlot]{tocbibind} % Put the bibliography in the ToC
+\usepackage[titles,subfigure]{tocloft} % Alter the style of the Table of Contents
+\renewcommand{\cftsecfont}{\rmfamily\mdseries\upshape}
+\renewcommand{\cftsecpagefont}{\rmfamily\mdseries\upshape} % No bold!
+
+\setlength{\parindent}{0em}
+\setlength{\parskip}{1em}
+\usepackage{amsmath}
+\usepackage{upgreek}
+\newtheorem{lemma}{Lemma}
+\newtheorem{sublemma}{Lemma}[lemma]
+
+
+%%% END Article customizations
+
+%%% The "real" document content comes below...
+
+\title{Number Theory Coursework}
+\date{}
+
+
+\begin{document}
+\maketitle
+
+\section{Preliminaries}
+
+For this proof one related theorem is required. For any $n \in \mathbb{N}_{\ge0}$, let
+$v_p(n)$ be the maximum integer $k$ such that $p^k$ divides $n$. Then for any integers $n > 0$, and $k > 0$,
+$v_p{{n}\choose{k}} \ge v_p(n) - v_p(k)$.
+
+A theorem by Legendre says that for any $n$, $v_p(n!) = \sum_{i=0}^{\infty} \left\lfloor\frac{n}{p^i}\right\rfloor $.
+
+To compute a bound on $v_p{{n}\choose{k}}$, observe that
+\begin{equation}
+  \begin{aligned}
+    v_p{{n}\choose{k}} = v_p(n!) - v_p(k!) - v_p ((n-k)!) \\
+    = \sum_{i=0}^{\infty} \left\lfloor\frac{n}{p^i}\right\rfloor - \left\lfloor\frac{k}{p^i}\right\rfloor
+      - \left\lfloor\frac{n-k}{p^i}\right\rfloor
+  \end{aligned}
+\end{equation}
+
+Observe that if $p^i$ divides $n$ but not $k$ then the corresponding term in the sum is $1$,
+so the sum is at least as big as the number if $i$ that divide $n$ but not $k$, which is
+$v_p(n) - v_p(k)$
+
+\section{Main proof}
+\begin{lemma}\label{lem:even2}
+  If $m$ is even then $x+1$ is a power of $2$
+\end{lemma}
+Consider congruences mod $p$ when $m$ is even, and $p$ divides $x+1$
+\begin{equation}
+  x^m + 1 \equiv (-1)^m + 1 \equiv 2 \ \text{mod} \ p
+\end{equation}
+So $2$ divides $(x+1)^n = 0$ mod $p$ and therefore $p = 2$ and $x + 1$ is a power of $2$.
+\begin{lemma}\label{lem:2mod4}
+  If $m$ is even then $x^m + 1 \equiv 2 \ mod \ 4$
+\end{lemma}
+  This is because $x$ must be odd, so $x^m$ is an odd square, so $x^m$ is $1 \ \text{mod} \ 4$.
+\begin{lemma}
+  $m$ is odd
+\end{lemma}
+Assume $m$ is even.
+
+By Lemma \ref{lem:even2}, $x^m + 1$ is a power of $2$. But by
+Lemma \ref{lem:2mod4} $x^m + 1$ is $2$ mod $4$. $2$ is the only power of $2$ congruent to
+$2$ mod $4$. So $x^m + 1 = 2$, but this contradicts $x > 1$ and $m > 1$. So $m$ is odd.
+
+\begin{lemma}\label{lem:poly}
+$x + 1$ divides $x^m + 1$
+\end{lemma}
+$-1$ is a root of the polynomial $X^m + 1$ since $m$ is odd. So by the factor theorem $x+1$ divides
+$x^m + 1$.
+
+The idea of the rest of the proof is to prove that $\frac{x^m+1}{x+1}$ divides $m$, and is therefore less
+than or equal to $m$, which puts bounds on $x$ and $m$. The divisibility is proven by proving every prime power that
+dividies $\frac{x^m+1}{x+1}$ also divides $m$.
+
+\begin{lemma}\label{lem:dvdchoose}
+  Let $p$ be a prime and suppose $p^r$ divides $m$. Let $t$ be a positive integer.
+  Let $i$ be an integer at least $2$. The $p^{r + t + 1}$ divides ${{m}\choose{i}} p^{ti}$
+\end{lemma}
+
+If $p=2$ then since $m$ is odd, $r = 0$. So $p^{r + t +1} = p^{t+1}$ which divides $p^{ti}$.
+
+Otherwise, we use the fact that $v_p{{m}\choose {i}} \ge v_p(m) - v_p(i)$.
+
+First prove that $p^{ti - t} > i$.
+$p^{ti - t} = p ^{t} p^{t(i-2)} \ge 3p^{t(i-2)} \ge p^{t(i-2)} + 2 > t(i-2) + 2 \ge i$,
+So $p^{ti - t}$ does not divide $i$.
+
+Therefore $v_p{{m}\choose {i}} > v_p(m) - (ti - t) $.
+So $v_p\left({{m}\choose {i}}p^{ti}\right) \ge v_p(m) + t$.
+
+\begin{lemma}\label{lem:primepowdvd}
+  If $p$ is prime and $p^t$ divides $x+1$, but $p^{t+1}$ does not divide $x+1$ and
+  $p^{s+t}$ divides $x^m + 1$, then $p^{s}$ divides $m$.
+\end{lemma}
+
+If $t=0$ then $s$ must also be equal to zero, since any prime dividing $x^m+1$ also divides $x+1$.
+
+First prove that $p^r$ divides $m$, when $r \le s$ by induction on $r$.
+We can assume $t$ is positive.
+
+The case $r = 0$ is trivial.
+
+Now assume $p^r$ divides $m$ and deduce $p^{r+1}$ divides $m$, provided $r < s$.
+
+
+Write $x = kp^t - 1$ where $p$ does not divide $k$.
+
+Then $x^m+1 = (kp^t-1)^m + 1 = mkp^t- \sum_{i=2}^{m} {{m}\choose{i}} (-k)^i p^{it}$.
+
+Using Lemma \ref{lem:dvdchoose}, $p^{r + t + 1}$ divides the sum. It also divides $x^m+1$, so
+$p^{r+ t + 1}$ must divide $mkp^t$, so $p^{r+1}$ divides m.
+
+\begin{lemma}\label{lem:ltm}
+  $\frac{x^m+1}{x+1} \le m$
+\end{lemma}
+
+By Lemma \ref{lem:primepowdvd}, every prime power that divides $\frac{x^m+1}{x+1}$ also divides $m$,
+So $\frac{x^m+1}{x+1}$ divides $m$ and is therefore less than or equal to $m$.
+
+\begin{lemma}
+  m=3
+\end{lemma}
+Suppose for a contradiction that $m \ge 4$. Write $m = m' + 4$, where $m' \in \mathbb{N}_0$.
+Similarly write $x = x' + 2$.
+
+Now show $(m' + 4) (x' + 2) + m' + 4 < (x' + 2)^{m' + 4} + 1$.
+\begin{equation}
+  \begin{aligned}
+    (m' + 4) (x' + 2) + x'(m' + 4) \\
+    = (3m'+12) + x'(m'+4) \\
+    < (3(x' + 2)^{m'} + 12(x'+2)^{m'}) + x'((x' + 2)^{m'} + 4(x'+2)^{m'}) \\
+    \le (x' + 2)^{m' + 4} + 1
+  \end{aligned}
+\end{equation}
+But by Lemma \ref{lem:ltm}, $(m' + 4) (x' + 2) + m' + 4 \ge (x' + 2)^{m' + 4} + 1$,
+so $m$ cannot be greater than $3$. $m$ is odd and $m > 1$ so $m = 3$
+
+\begin{lemma}
+  x=2
+\end{lemma}
+Suppose for a contradiction that $x \ge 3$. Write $x = x' = 3$
+Then
+\begin{equation}
+  \begin{aligned}
+    mx + m  \\
+    = 3x' + 12  \\
+    < {x'}^3+9{x'}^2 + 27{x'} + 27 \\
+    = x^m+1
+  \end{aligned}
+\end{equation}
+So $x < 3$, but $x > 1$, so $x = 2$.
+
+\begin{lemma}
+  The solutions are $x=2$, $m=3$ and $n \ge 2$
+\end{lemma}
+Given $x=2$ and $m=3$ simple calculations verify that this is a solution if and only if $n\ge2$.
+
+\end{document}
