@@ -118,6 +118,7 @@
 \usepackage{upgreek}
 \newtheorem{lemma}{Lemma}
 \newtheorem{sublemma}{Lemma}[lemma]
+\usepackage{hyperref}
 
 
 %%% END Article customizations
@@ -130,6 +131,9 @@
 
 \begin{document}
 \maketitle
+
+The result proved in this coursework has also been proved using the same method in the Lean theorem prover. This is available at
+\url{https://github.com/ChrisHughes24/numbertheory}
 
 \section{Preliminaries}
 
@@ -149,18 +153,18 @@ To compute a bound on $v_p{{n}\choose{k}}$, observe that
 \end{equation}
 
 Observe that if $p^i$ divides $n$ but not $k$ then the corresponding term in the sum is $1$,
-so the sum is at least as big as the number if $i$ that divide $n$ but not $k$, which is
+so the sum is at least as big as the number of $i$ that divide $n$ but not $k$, which is
 $v_p(n) - v_p(k)$
 
 \section{Main proof}
 \begin{lemma}\label{lem:even2}
   If $m$ is even then $x+1$ is a power of $2$
 \end{lemma}
-Consider congruences mod $p$ when $m$ is even, and $p$ divides $x+1$
+Consider congruences mod $p$ when $m$ is even, and $p$ divides $x^m+1$. Then $p$ also divides $x+1$
 \begin{equation}
   x^m + 1 \equiv (-1)^m + 1 \equiv 2 \ \text{mod} \ p
 \end{equation}
-So $2$ divides $(x+1)^n = 0$ mod $p$ and therefore $p = 2$ and $x + 1$ is a power of $2$.
+So $2 = 0$ mod $p$ and therefore $p = 2$ and $x + 1$ is a power of $2$.
 \begin{lemma}\label{lem:2mod4}
   If $m$ is even then $x^m + 1 \equiv 2 \ mod \ 4$
 \end{lemma}
